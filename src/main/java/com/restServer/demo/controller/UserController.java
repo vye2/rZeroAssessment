@@ -1,14 +1,14 @@
 package com.restServer.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.restServer.demo.repository.UserRepository;
 
 @Controller
 public class UserController {
 	
-	@RequestMapping("/")
-	public String Index() {
-		return "index.jsp";
-	}
+	@Autowired
+	UserRepository repository;
 
 }
