@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +21,6 @@ public class UserController {
 	UserRepository repository;
 	
 	
-	@PostMapping("users/add")
-	public User addUser(@RequestBody User user) {
-		repository.save(user);
-		return user;
-	}
-	
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return repository.findAll();
@@ -35,4 +30,19 @@ public class UserController {
 	public Optional<User> getUser(@PathVariable("id") int id) {
 		return repository.findById(id);
 	}
+	
+	@PostMapping("users/add")
+	public User addUser(@RequestBody User user) {
+		repository.save(user);
+		return user;
+	}
+	
+	@DeleteMapping("users/remove/{id}")
+	public String removeUser(@PathVariable("id") int id) {
+		User userToRemove = repository.getOne(id);
+		repository.delete(userToRemove);
+		return "User ID : " + id + " deleted.";
+	}
+	
 }
+
