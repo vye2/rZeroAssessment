@@ -12,18 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.restServer.demo.model.User;
-import com.restServer.demo.repository.UserRepository;
 import com.restServer.demo.service.UserService;
 
 @RestController
 @RequestMapping(path="/users")
 public class UserController {
 	
+	@Autowired
 	private UserService userService;
-	
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
 	
 	
 	@GetMapping
