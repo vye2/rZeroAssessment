@@ -14,9 +14,6 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public UserService(UserRepository userRepository) {
-		this.repository = userRepository;
-	}
 	
 	public User addUser(User user) {
 		repository.save(user);

@@ -23,6 +23,7 @@ public class PreloadDatabase {
 			InputStream inputStream = TypeReference.class.getResourceAsStream("/json/users.json");
 			try {
 				List<User> users = mapper.readValue(inputStream, typeReference);
+				System.out.println("USERS: " + users);
 				for (User user: users) {
 					userService.addUser(user);
 				}

@@ -1,5 +1,7 @@
 package com.restServer.demo.model;
 
+import java.util.Optional;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,6 +11,7 @@ public class User {
 	@Id
 	private int id;
 	private String name;
+	private Boolean verified;
 	
 	public int getId() {
 		return id;
@@ -22,10 +25,17 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public Optional<Boolean> getVerified() {
+		return Optional.ofNullable(verified);
+	}
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+	
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + "]";
+		return "User [id=" + id + ", name=" + name + ", v=" + verified + "]";
 	}
 	
 

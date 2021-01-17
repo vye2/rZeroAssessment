@@ -1,6 +1,7 @@
 package com.restServer.demo.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,15 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.restServer.demo.model.User;
 import com.restServer.demo.service.UserService;
+import com.restServer.demo.service.VerifyService;
 
 @RestController
 @RequestMapping(path="/users")
 public class UserController {
-	
+		
 	@Autowired
 	private UserService userService;
-	
-	
+		
+	@Autowired
+	private VerifyService verifyService;
+   
 	@GetMapping
 	public List<User> getUsers() {
 		return this.userService.getUsers();
@@ -41,6 +45,12 @@ public class UserController {
 	public String removeUser(@PathVariable("id") int id) {
 		return this.userService.removeUser(id);
 	}
+	
+	@GetMapping(path="/verify/{id}")
+	public boolean getUserVerify(@PathVariable("id") int id) {
+		return this.verifyService.verifyUser(id);
+	}
+
 	
 }
 
