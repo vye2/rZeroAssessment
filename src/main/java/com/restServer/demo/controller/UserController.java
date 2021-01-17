@@ -1,9 +1,10 @@
 package com.restServer.demo.controller;
 
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,29 +27,32 @@ public class UserController {
 	@Autowired
 	private VerifyService verifyService;
    
-	@GetMapping
-	public List<User> getUsers() {
-		return this.userService.getUsers();
+	@GetMapping(produces= {"application/json"})
+	public ResponseEntity<List<User>> getUsers() {
+		return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
 	}
-
-//	@GetMapping(path="/{id}")
-//	public Optional<User> getUser(@PathVariable("id") int id) {
-//		return repository.findById(id);
-//	}
 	
 	@PostMapping(path="/add", consumes= {"application/json"}, produces= {"application/json"})
-	public User addUser(@RequestBody User user) {
-		return this.userService.addUser(user);
+	public ResponseEntity<User> addUser(@RequestBody User user) {
+		return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(path="/remove/{id}")
-	public String removeUser(@PathVariable("id") int id) {
-		return this.userService.removeUser(id);
+	@DeleteMapping(path="/remove/{id}", produces= {"application/json"})
+	public ResponseEntity<String> removeUser(@PathVariable("id") int id) {
+		String removedResult = userService.removeUser(id);
+		if (removedResult == null) {
+			return new ResponseEntity<>("\"No User with ID " + id + " exists.\"" , HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>("\"Removed " + removedResult + ".\"", HttpStatus.OK);
 	}
 	
-	@GetMapping(path="/verify/{id}")
-	public boolean getUserVerify(@PathVariable("id") int id) {
-		return this.verifyService.verifyUser(id);
+	@GetMapping(path="/verify/{id}", produces= {"application/json"})
+	public ResponseEntity<String> getUserVerify(@PathVariable("id") int id) {
+		Boolean verifiedResult = verifyService.verifyUser(id);
+		if (verifiedResult == null) {
+			return new ResponseEntity<>("\"No User with ID " + id + " exists.\"" , HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>("\"User "+ id + " " + verifiedResult + ".\"", HttpStatus.OK);
 	}
 
 	

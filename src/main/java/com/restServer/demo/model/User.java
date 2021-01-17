@@ -32,10 +32,9 @@ public class User {
 		this.verified = verified;
 	}
 	
-	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", v=" + verified + "]";
+		return "User [id=" + id + ", name=" + name + "]";
 	}
 	
 

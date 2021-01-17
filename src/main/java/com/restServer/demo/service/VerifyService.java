@@ -14,7 +14,7 @@ public class VerifyService {
 	@Autowired
 	private UserRepository repository;
 	
-    private boolean verification() {
+    private boolean sampleVerification() {
     	try
     	{
     	    Thread.sleep(2000);
@@ -25,36 +25,27 @@ public class VerifyService {
     	}        
     	return Math.random() < 0.5;
     }
-
     
-	public boolean verifyUser(int id) {
+	public Boolean verifyUser(int id) {
 		Optional<User> selectedUser = repository.findById(id);
-		if (selectedUser.isEmpty()) {
-			return false;
-		}
 		
-		System.out.println("SELECTED USER: " +  selectedUser);
-
+		//If User doesn't exist, then no data to return. Else get the user.
+		if (selectedUser.isEmpty()) 
+			return null;
 		User user = selectedUser.get();
 		
-		Optional<Boolean> verifiedBool = user.getVerified();
+		//Check if the verification service has been called before for this user.
+		Optional<Boolean> userVerifiedBool = user.getVerified();
 		
-		boolean firstTime = true;
-		
-		if (verifiedBool.isPresent()) {
-			firstTime = false;
-		}
-		
-		if (firstTime) {
-			boolean flagToSet = verification();
-			System.out.println("FLAGTOSET: " + flagToSet);
-
+		//If first time called, save verification result.
+		if (userVerifiedBool.isEmpty()) {
+			boolean flagToSet = sampleVerification();
 			user.setVerified(flagToSet);
 			repository.save(user);
 		}
+		
 		return user.getVerified().get();
 		
-
 	}
     
     

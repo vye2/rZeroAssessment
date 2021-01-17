@@ -14,7 +14,6 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	
 	public User addUser(User user) {
 		repository.save(user);
 		return user;
@@ -25,8 +24,10 @@ public class UserService {
 	}
 	
 	public String removeUser(int id) {
+		if (!repository.existsById(id)) {
+			return null;
+		}
 		repository.deleteById(id);
 		return "Deleted User " + id;
-		
 	}
 }
