@@ -23,11 +23,11 @@ public class UserService {
 		return repository.findAll();
 	}
 	
-	public String removeUser(int id) {
+	public Boolean removeUser(int id) {
 		if (!repository.existsById(id)) {
-			return null;
+			return false;
 		}
 		repository.deleteById(id);
-		return "Deleted User " + id;
+		return true;
 	}
 }

@@ -1,5 +1,6 @@
 package com.restServer.demo.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,23 +39,27 @@ public class UserController {
 	}
 	
 	@DeleteMapping(path="/remove/{id}", produces= {"application/json"})
-	public ResponseEntity<String> removeUser(@PathVariable("id") int id) {
-		String removedResult = userService.removeUser(id);
-		if (removedResult == null) {
-			return new ResponseEntity<>("\"No User with ID " + id + " exists.\"" , HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<Object> removeUser(@PathVariable("id") int id) {
+		Boolean removedResult = userService.removeUser(id);
+		if (removedResult == false) {
+			return new ResponseEntity<>("No user with ID " + id + " exists." , HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>("\"Removed " + removedResult + ".\"", HttpStatus.OK);
+		Object resultAsObj = Collections.singletonMap("success", removedResult);
+		return new ResponseEntity<>(resultAsObj, HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/verify/{id}", produces= {"application/json"})
-	public ResponseEntity<String> getUserVerify(@PathVariable("id") int id) {
+	public ResponseEntity<Object> getUserVerify(@PathVariable("id") int id) {
 		Boolean verifiedResult = verifyService.verifyUser(id);
 		if (verifiedResult == null) {
-			return new ResponseEntity<>("\"No User with ID " + id + " exists.\"" , HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("No user with ID " + id + " exists.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>("\"User "+ id + " " + verifiedResult + ".\"", HttpStatus.OK);
+		Object resultAsObj = Collections.singletonMap("verified", verifiedResult);
+		return new ResponseEntity<>(resultAsObj, HttpStatus.OK);
+
 	}
 
+	
 	
 }
 

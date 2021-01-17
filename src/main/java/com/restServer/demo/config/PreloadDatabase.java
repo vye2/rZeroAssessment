@@ -15,6 +15,11 @@ import com.restServer.demo.service.UserService;
 
 @Configuration
 public class PreloadDatabase {
+	
+	/**
+	 * CommandLineRunner is used to indicate that a bean 
+	 * should run when it is contained within a SpringApplication
+	 */
 	@Bean
 	CommandLineRunner preloadDB(UserService userService) {
 		return args -> {
